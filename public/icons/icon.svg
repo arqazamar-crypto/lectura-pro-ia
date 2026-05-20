@@ -1,26 +1,45 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" role="img" aria-label="Lectura Pro IA">
   <defs>
-    <linearGradient id="bg" x1="120" y1="80" x2="900" y2="940" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#111827"/>
-      <stop offset=".48" stop-color="#080F14"/>
-      <stop offset="1" stop-color="#1F2937"/>
+    <linearGradient id="bg" x1="92" y1="78" x2="928" y2="934" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#101B3F"/>
+      <stop offset=".52" stop-color="#080F14"/>
+      <stop offset="1" stop-color="#30104E"/>
     </linearGradient>
-    <linearGradient id="neon" x1="250" y1="220" x2="780" y2="760" gradientUnits="userSpaceOnUse">
+    <linearGradient id="brain" x1="280" y1="196" x2="744" y2="604" gradientUnits="userSpaceOnUse">
       <stop stop-color="#06B6D4"/>
-      <stop offset=".48" stop-color="#7C3AED"/>
-      <stop offset="1" stop-color="#22C55E"/>
+      <stop offset=".45" stop-color="#2563EB"/>
+      <stop offset=".58" stop-color="#7C3AED"/>
+      <stop offset="1" stop-color="#F472B6"/>
     </linearGradient>
-    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
-      <feGaussianBlur stdDeviation="16" result="blur"/>
-      <feColorMatrix in="blur" values="0 0 0 0 0.31 0 0 0 0 0.12 0 0 0 0 0.93 0 0 0 .95 0"/>
+    <linearGradient id="bookLeft" x1="168" y1="604" x2="512" y2="838" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#06B6D4"/>
+      <stop offset=".55" stop-color="#2563EB"/>
+      <stop offset="1" stop-color="#4338CA"/>
+    </linearGradient>
+    <linearGradient id="bookRight" x1="512" y1="604" x2="856" y2="838" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4F46E5"/>
+      <stop offset=".48" stop-color="#7C3AED"/>
+      <stop offset="1" stop-color="#F472B6"/>
+    </linearGradient>
+    <filter id="glow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="13" result="blur"/>
+      <feColorMatrix in="blur" values="0 0 0 0 0.15 0 0 0 0 0.57 0 0 0 0 1 0 0 0 .95 0"/>
+      <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="purpleGlow" x="-40%" y="-40%" width="180%" height="180%">
+      <feGaussianBlur stdDeviation="13" result="blur"/>
+      <feColorMatrix in="blur" values="0 0 0 0 0.78 0 0 0 0 0.22 0 0 0 0 1 0 0 0 .9 0"/>
       <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
     </filter>
   </defs>
-  <rect width="1024" height="1024" rx="232" fill="url(#bg)"/>
-  <rect x="74" y="74" width="876" height="876" rx="205" fill="none" stroke="#F8FAFC" stroke-opacity=".08" stroke-width="4"/>
-  <path d="M512 722c-66-62-144-91-245-91V304c98 0 178 31 245 94 67-63 147-94 245-94v327c-101 0-179 29-245 91Z" fill="#0B1220" stroke="url(#neon)" stroke-width="32" stroke-linejoin="round" filter="url(#glow)"/>
-  <path d="M512 398v324M326 389c45 10 82 28 111 55M326 481c49 9 88 27 117 54M326 572c50 6 88 21 117 46M698 389c-45 10-82 28-111 55M698 481c-49 9-88 27-117 54M698 572c-50 6-88 21-117 46" fill="none" stroke="#F8FAFC" stroke-opacity=".82" stroke-width="22" stroke-linecap="round"/>
-  <path d="M405 351c-35-72 18-141 92-111 27-68 123-50 128 23 75-11 119 79 67 133 54 40 32 127-38 137 4 78-94 113-142 52-50 61-146 26-142-52-72-12-91-99-38-137-29-30-30-70-7-98" fill="none" stroke="url(#neon)" stroke-width="30" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
-  <circle cx="512" cy="723" r="30" fill="#080F14" stroke="url(#neon)" stroke-width="22"/>
-  <path d="M687 660l75 32v-151" fill="#7C3AED"/>
+  <rect x="40" y="40" width="944" height="944" rx="222" fill="url(#bg)"/>
+  <rect x="58" y="58" width="908" height="908" rx="204" fill="none" stroke="#F8FAFC" stroke-opacity=".08" stroke-width="5"/>
+  <path d="M157 378h151M123 454h196M165 530h154" stroke="#06B6D4" stroke-width="21" stroke-linecap="round" opacity=".92" filter="url(#glow)"/>
+  <path d="M724 356h42M796 410h36M730 492h48M816 540h34" stroke="#7C3AED" stroke-width="27" stroke-linecap="round" opacity=".92" filter="url(#purpleGlow)"/>
+  <path d="M507 275c-31-58-109-48-128 10-58-2-91 48-82 95-50 17-71 70-48 113-34 39-25 102 23 128 11 68 91 94 144 48 34 28 73 34 91 19V275Z" fill="#0A1325" stroke="url(#brain)" stroke-width="32" stroke-linecap="round" stroke-linejoin="round" filter="url(#glow)"/>
+  <path d="M517 275c31-58 109-48 128 10 58-2 91 48 82 95 50 17 71 70 48 113 34 39 25 102-23 128-11 68-91 94-144 48-34 28-73 34-91 19V275Z" fill="#140B29" stroke="url(#brain)" stroke-width="32" stroke-linecap="round" stroke-linejoin="round" filter="url(#purpleGlow)"/>
+  <path d="M410 331c-35 15-44 58-16 84M346 454c47-3 82 29 83 75M441 575c-24 24-18 65 13 80M613 331c35 15 44 58 16 84M678 454c-47-3-82 29-83 75M583 575c24 24 18 65-13 80" fill="none" stroke="#DFF7FF" stroke-opacity=".85" stroke-width="24" stroke-linecap="round"/>
+  <path d="M512 716c-88-74-198-105-338-89l48 132c128-17 222 8 290 74V716Z" fill="url(#bookLeft)" stroke="#93C5FD" stroke-width="19" stroke-linejoin="round" filter="url(#glow)"/>
+  <path d="M512 716c88-74 198-105 338-89l-48 132c-128-17-222 8-290 74V716Z" fill="url(#bookRight)" stroke="#F0ABFC" stroke-width="19" stroke-linejoin="round" filter="url(#purpleGlow)"/>
+  <path d="M197 790c130-26 228-6 315 62M827 790c-130-26-228-6-315 62" fill="none" stroke="#F8FAFC" stroke-opacity=".35" stroke-width="18" stroke-linecap="round"/>
 </svg>

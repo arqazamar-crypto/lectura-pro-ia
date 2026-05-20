@@ -3,7 +3,7 @@
   "short_name": "Lectura Pro",
   "description": "Entrenador personal de lectura rapida, comprension y retencion guiado por IA.",
   "id": "/?app=lectura-pro-ia",
-  "start_url": "/?source=pwa&v=2.0.2",
+  "start_url": "/?v=2.0.2",
   "scope": "/",
   "display": "standalone",
   "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
@@ -14,9 +14,21 @@
   "lang": "es-MX",
   "icons": [
     {
-      "src": "/icons/icon.svg",
-      "sizes": "any",
-      "type": "image/svg+xml",
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ],
