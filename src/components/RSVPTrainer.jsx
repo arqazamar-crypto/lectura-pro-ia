@@ -6,7 +6,7 @@ import SessionResults from './SessionResults';
 
 const speeds = [150, 200, 250, 300, 400, 500];
 
-export default function RSVPTrainer({ state, onSaveSession }) {
+export default function RSVPTrainer({ state, onSaveSession, onGoHome, onContinuePlan, onStartSession, onClearInProgress }) {
   const [speed, setSpeed] = useState(state.settings?.preferredSpeed || 200);
   const [textId, setTextId] = useState(texts[0].id);
   const text = texts.find((item) => item.id === textId) || texts[0];
@@ -77,10 +77,14 @@ export default function RSVPTrainer({ state, onSaveSession }) {
           <select value={speed} onChange={(e) => setSpeed(Number(e.target.value))}>{speeds.map((item) => <option key={item} value={item}>{item} ppm</option>)}</select>
           <select value={text.id} onChange={(e) => { setTextId(e.target.value); reset(); }}>{texts.map((item) => <option value={item.id} key={item.id}>{item.title}</option>)}</select>
         </div>
+        <div className="instruction-box">
+          <strong>Instrucciones</strong>
+          <p>Las palabras apareceran una por una. Mantén la vista al centro. No intentes regresar.</p>
+        </div>
         <div className="rsvp-display">{words[index]}</div>
         <div className="progress"><span style={{ width: `${((index + 1) / words.length) * 100}%` }} /></div>
         <div className="actions">
-          <button className="primary" onClick={() => setRunning(true)} disabled={running || done} type="button">Iniciar</button>
+          <button className="primary" onClick={() => { onStartSession?.({ title: text.title, view: 'rsvp', type: 'rsvp' }); setRunning(true); }} disabled={running || done} type="button">Iniciar</button>
           <button className="secondary" onClick={() => setRunning(false)} disabled={!running} type="button">Pausar</button>
           <button className="secondary" onClick={reset} type="button">Reiniciar</button>
         </div>
@@ -92,7 +96,7 @@ export default function RSVPTrainer({ state, onSaveSession }) {
           <button className="primary wide" onClick={finish} disabled={text.comprehension.some((_, i) => answers[i] === undefined) || text.retention.some((_, i) => retAnswers[i] === undefined)} type="button">Ver resultados</button>
         </>
       )}
-      <SessionResults session={session} previous={state.history.at(-1)} saved={saved} onRepeat={reset} onLevelUp={reset} onSave={() => { onSaveSession(session); setSaved(true); }} />
+      <SessionResults session={session} previous={state.history.at(-1)} saved={saved} onRepeat={() => { onClearInProgress?.(); reset(); }} onGoHome={onGoHome} onContinuePlan={onContinuePlan} onSave={() => { onSaveSession(session); onClearInProgress?.(); setSaved(true); }} />
     </main>
   );
 }

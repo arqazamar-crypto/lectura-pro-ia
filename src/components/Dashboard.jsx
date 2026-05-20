@@ -1,62 +1,62 @@
-import { BarChart3, BookOpen, Brain, Eye, Flag, Gauge, Library, LineChart, Play, Target, Timer, Trophy, Zap } from 'lucide-react';
+import { ArrowRight, BarChart3, Brain, CalendarDays, Flame, Gauge, Trophy } from 'lucide-react';
+import CoachCard from './CoachCard';
+import RouteTimeline from './RouteTimeline';
 import { average, stableSpeed } from '../utils/calculations';
-
-const shortcuts = [
-  ['evaluation', 'Evaluación inicial', Gauge],
-  ['training', 'Iniciar entrenamiento', Play],
-  ['rsvp', 'Técnica RSVP', Zap],
-  ['anti', 'Anti-regresión', Eye],
-  ['focus', 'Enfoque', Brain],
-  ['progress', 'Progreso', LineChart],
-  ['goals', 'Metas', Flag],
-  ['library', 'Biblioteca', Library]
-];
+import { getDailySession } from '../utils/coach';
+import { getProgram } from '../data/programs';
 
 export default function Dashboard({ state, onNavigate }) {
   const history = state.history || [];
   const currentWpm = history.at(-1)?.wpm || state.initialEvaluation?.wpm || 0;
+  const program = state.activeProgram ? getProgram(state.activeProgram) : null;
+  const daily = state.activeProgram ? getDailySession(state) : null;
   const stats = [
-    ['Velocidad actual', `${currentWpm} ppm`, Timer],
-    ['Comprensión promedio', `${average(history, 'comprehension')}%`, Brain],
-    ['Retención promedio', `${average(history, 'retention')}%`, BookOpen],
-    ['Prácticas realizadas', history.length, BarChart3],
-    ['Mejor velocidad estable', `${stableSpeed(history)} ppm`, Trophy],
-    ['Nivel actual', state.currentLevel, Target],
-    ['Racha de entrenamiento', `${state.streak || 0} días`, Zap]
+    ['PPM actual', `${currentWpm}`, Gauge],
+    ['Comprension', `${average(history, 'comprehension')}%`, Brain],
+    ['Racha', `${state.streak || 0}`, Flame],
+    ['Mejor estable', `${stableSpeed(history)}`, Trophy]
   ];
 
   return (
-    <main className="view">
-      <section className="hero">
+    <main className="view mobile-view">
+      <section className="home-hero">
         <div>
-          <p className="eyebrow">Entrenador personal de lectura</p>
-          <h1>Lectura Pro IA</h1>
-          <p>Lee más rápido, comprende mejor y retén más</p>
+          <p className="eyebrow">IA que evalua, entrena y guia</p>
+          <h1>Entrena tu mente. Acelera tu lectura.</h1>
+          <p>Tu ruta diaria se ajusta segun comprension, retencion y constancia.</p>
         </div>
-        <button className="primary" onClick={() => onNavigate('training')} type="button"><Play size={18} /> Iniciar práctica</button>
+        <button className="primary" type="button" onClick={() => onNavigate(state.activeProgram ? 'today' : 'plan')}>
+          {state.activeProgram ? 'Ver sesion de hoy' : 'Elegir ruta'} <ArrowRight size={18} />
+        </button>
       </section>
-      <section className="stats-grid">
+      <section className="metric-row">
         {stats.map(([label, value, Icon]) => (
-          <article className="stat-card" key={label}>
-            <Icon size={21} />
-            <span>{label}</span>
+          <article className="glass-stat" key={label}>
+            <Icon size={18} />
             <strong>{value}</strong>
+            <span>{label}</span>
           </article>
         ))}
       </section>
-      <section>
-        <div className="section-head">
-          <h2>Accesos rápidos</h2>
-          <span>Flujo completo de entrenamiento</span>
-        </div>
-        <div className="shortcut-grid">
-          {shortcuts.map(([view, label, Icon]) => (
-            <button className="shortcut" key={view} onClick={() => onNavigate(view)} type="button">
-              <Icon size={22} />
-              <span>{label}</span>
-            </button>
-          ))}
-        </div>
+      <CoachCard state={state} onAction={() => onNavigate(state.activeProgram ? daily.view : 'plan')} />
+      {program && (
+        <section className="today-card compact-card">
+          <p className="eyebrow">Programa activo</p>
+          <h2>{program.name}</h2>
+          <p>{program.objective}</p>
+          <div className="program-meta">
+            <span>Semana {Math.max(1, Math.ceil((state.currentPlanDay || 1) / program.schedule.length))}</span>
+            <span>{program.frequency}</span>
+          </div>
+          <button className="secondary wide" type="button" onClick={() => onNavigate('today')}>
+            <CalendarDays size={18} /> Continuar plan
+          </button>
+        </section>
+      )}
+      <RouteTimeline state={state} />
+      <section className="module-grid">
+        <button className="module-card" type="button" onClick={() => onNavigate('progress')}><BarChart3 size={22} /><span>Progreso real</span><p>Analiza tus ultimos resultados.</p></button>
+        <button className="module-card" type="button" onClick={() => onNavigate('train')}><Brain size={22} /><span>Practica extra</span><p>Refuerza sin romper tu ruta.</p></button>
       </section>
     </main>
   );

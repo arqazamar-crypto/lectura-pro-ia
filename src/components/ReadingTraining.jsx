@@ -6,7 +6,7 @@ import SessionResults from './SessionResults';
 
 const levels = ['Básico', 'Intermedio', 'Avanzado'];
 
-export default function ReadingTraining({ state, onSaveSession, onSetLevel }) {
+export default function ReadingTraining({ state, onSaveSession, onSetLevel, onGoHome, onContinuePlan, onStartSession, onClearInProgress }) {
   const [level, setLevel] = useState(state.currentLevel || 'Básico');
   const levelTexts = texts.filter((text) => text.level === level);
   const [textId, setTextId] = useState(levelTexts[0]?.id);
@@ -77,15 +77,19 @@ export default function ReadingTraining({ state, onSaveSession, onSetLevel }) {
             {levelTexts.map((item) => <option value={item.id} key={item.id}>{item.title}</option>)}
           </select>
         </div>
+        <div className="instruction-box">
+          <strong>Instrucciones</strong>
+          <p>Lee a ritmo natural. No busques velocidad maxima: la app prioriza comprension y retencion antes de subir nivel.</p>
+        </div>
         <article className="reading-text">{text.content}</article>
         <div className="actions">
-          <button className="primary" onClick={() => setStartedAt(Date.now())} disabled={startedAt && !finishedAt} type="button">Iniciar</button>
+          <button className="primary" onClick={() => { setStartedAt(Date.now()); onStartSession?.({ title: text.title, view: 'training', type: 'reading' }); }} disabled={startedAt && !finishedAt} type="button">Iniciar</button>
           <button className="secondary" onClick={() => { setFinishedAt(Date.now()); setPhase('comp'); }} disabled={!startedAt || finishedAt} type="button">Terminé</button>
         </div>
       </section>
       {phase === 'comp' && <><Quiz title="Preguntas de comprensión" questions={text.comprehension} answers={compAnswers} onAnswer={(i, v) => setCompAnswers({ ...compAnswers, [i]: v })} /><button className="primary wide" onClick={() => setPhase('ret')} disabled={!allComp} type="button">Continuar a retención</button></>}
       {phase === 'ret' && <><Quiz title="Preguntas de retención" questions={text.retention} answers={retAnswers} onAnswer={(i, v) => setRetAnswers({ ...retAnswers, [i]: v })} /><button className="primary wide" onClick={buildSession} disabled={!allRet} type="button">Calcular resultado</button></>}
-      <SessionResults session={session} previous={state.history.at(-1)} saved={saved} onRepeat={() => reset(level)} onLevelUp={reset} onSave={() => { onSaveSession(session); setSaved(true); onSetLevel(session.level); }} />
+      <SessionResults session={session} previous={state.history.at(-1)} saved={saved} onRepeat={() => { onClearInProgress?.(); reset(level); }} onGoHome={onGoHome} onContinuePlan={onContinuePlan} onSave={() => { onSaveSession(session); onClearInProgress?.(); setSaved(true); onSetLevel(session.level); }} />
     </main>
   );
 }

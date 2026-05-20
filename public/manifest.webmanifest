@@ -1,14 +1,15 @@
 {
   "name": "Lectura Pro IA",
   "short_name": "Lectura Pro",
-  "description": "Entrenador personal de lectura rápida, comprensión y retención.",
-  "start_url": "/",
+  "description": "Entrenador personal de lectura rapida, comprension y retencion guiado por IA.",
+  "id": "/?app=lectura-pro-ia",
+  "start_url": "/?source=pwa&v=2.0.0",
   "scope": "/",
   "display": "standalone",
   "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],
   "orientation": "portrait",
-  "background_color": "#f3f6fb",
-  "theme_color": "#123a78",
+  "background_color": "#080F14",
+  "theme_color": "#080F14",
   "categories": ["education", "productivity"],
   "lang": "es-MX",
   "icons": [
@@ -25,7 +26,7 @@
       "sizes": "390x844",
       "type": "image/svg+xml",
       "form_factor": "narrow",
-      "label": "Panel principal móvil de Lectura Pro IA"
+      "label": "Coach IA y ruta diaria de Lectura Pro IA"
     }
   ]
 }

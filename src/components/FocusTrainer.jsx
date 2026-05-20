@@ -30,7 +30,7 @@ const exercises = [
   }
 ];
 
-export default function FocusTrainer({ state, onSaveSession }) {
+export default function FocusTrainer({ state, onSaveSession, onGoHome, onContinuePlan, onStartSession, onClearInProgress }) {
   const [textId, setTextId] = useState(texts[2].id);
   const text = texts.find((item) => item.id === textId) || texts[2];
   const [startedAt, setStartedAt] = useState(null);
@@ -62,8 +62,12 @@ export default function FocusTrainer({ state, onSaveSession }) {
       <section className="panel">
         <div className="section-head"><div><p className="eyebrow">Entrenamiento de enfoque</p><h1>Precisión y tiempo</h1></div><span>{text.topic}</span></div>
         <select value={text.id} onChange={(e) => setTextId(e.target.value)}>{texts.map((item) => <option value={item.id} key={item.id}>{item.title}</option>)}</select>
+        <div className="instruction-box">
+          <strong>Instrucciones</strong>
+          <p>Lee rapido, identifica la idea principal y responde con precision. El objetivo es enfoque, no velocidad vacia.</p>
+        </div>
         <article className="reading-text compact">{text.content}</article>
-        {!startedAt && <button className="primary" onClick={() => setStartedAt(Date.now())} type="button">Iniciar ejercicios</button>}
+        {!startedAt && <button className="primary" onClick={() => { onStartSession?.({ title: text.title, view: 'focus', type: 'focus' }); setStartedAt(Date.now()); }} type="button">Iniciar ejercicios</button>}
       </section>
       {startedAt && !session && (
         <section className="quiz">
@@ -79,7 +83,7 @@ export default function FocusTrainer({ state, onSaveSession }) {
           <button className="primary wide" onClick={finish} disabled={exercises.some((_, i) => answers[i] === undefined)} type="button">Medir precisión</button>
         </section>
       )}
-      <SessionResults session={session} previous={state.history.at(-1)} saved={saved} onRepeat={() => { setStartedAt(null); setAnswers({}); setSession(null); setSaved(false); }} onLevelUp={() => {}} onSave={() => { onSaveSession(session); setSaved(true); }} />
+      <SessionResults session={session} previous={state.history.at(-1)} saved={saved} onRepeat={() => { onClearInProgress?.(); setStartedAt(null); setAnswers({}); setSession(null); setSaved(false); }} onGoHome={onGoHome} onContinuePlan={onContinuePlan} onSave={() => { onSaveSession(session); onClearInProgress?.(); setSaved(true); }} />
     </main>
   );
 }

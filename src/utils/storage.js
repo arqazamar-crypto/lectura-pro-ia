@@ -16,13 +16,37 @@ export const defaultState = {
   settings: {
     preferredSpeed: 200
   },
+  activeProgram: null,
+  programStartedAt: null,
+  currentPlanDay: 1,
+  routeProgress: {
+    evaluation: 'available',
+    plan: 'locked',
+    today: 'locked',
+    progress: 'locked',
+    level: 'locked'
+  },
+  dailySession: null,
+  inProgressSession: null,
+  userName: '',
+  lastCoachMessage: '',
   lastPracticeDate: null
 };
 
 export function loadState() {
   try {
     const saved = localStorage.getItem(KEY);
-    return saved ? { ...defaultState, ...JSON.parse(saved) } : defaultState;
+    if (!saved) return defaultState;
+    const parsed = JSON.parse(saved);
+    return {
+      ...defaultState,
+      ...parsed,
+      goals: { ...defaultState.goals, ...(parsed.goals || {}) },
+      settings: { ...defaultState.settings, ...(parsed.settings || {}) },
+      routeProgress: { ...defaultState.routeProgress, ...(parsed.routeProgress || {}) },
+      badges: parsed.badges || [],
+      history: parsed.history || []
+    };
   } catch {
     return defaultState;
   }

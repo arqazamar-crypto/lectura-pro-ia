@@ -1,35 +1,57 @@
+import { Home, TrendingUp } from 'lucide-react';
 import { average, stableSpeed } from '../utils/calculations';
 
-export default function ProgressPanel({ history }) {
+export default function ProgressPanel({ history, state, onGoHome }) {
   const last7 = history.slice(-7);
-  const trend = last7.length < 2 ? 'Sin tendencia suficiente' : last7.at(-1).comprehension >= last7[0].comprehension ? 'Tendencia positiva' : 'Tendencia a reforzar';
+  const completedThisWeek = history.filter((item) => Date.now() - new Date(item.date).getTime() < 7 * 86400000).length;
+  const trend = last7.length < 2 ? 'Sin datos suficientes' : last7.at(-1).comprehension >= last7[0].comprehension ? 'Tendencia positiva' : 'Necesita refuerzo';
+  const activities = history.slice().reverse().slice(0, 8);
+
   return (
-    <main className="view">
-      <section className="stats-grid">
-        <article className="stat-card"><span>Promedio velocidad</span><strong>{average(history, 'wpm')} ppm</strong></article>
-        <article className="stat-card"><span>Promedio comprensión</span><strong>{average(history, 'comprehension')}%</strong></article>
-        <article className="stat-card"><span>Promedio retención</span><strong>{average(history, 'retention')}%</strong></article>
-        <article className="stat-card"><span>Mejor velocidad estable</span><strong>{stableSpeed(history)} ppm</strong></article>
-        <article className="stat-card"><span>Total prácticas</span><strong>{history.length}</strong></article>
-        <article className="stat-card"><span>Tendencia general</span><strong>{trend}</strong></article>
+    <main className="view mobile-view">
+      <section className="screen-title">
+        <p className="eyebrow">Progreso</p>
+        <h1>Resultados reales</h1>
+        <p>El Coach IA usa estos datos para ajustar tu proxima tarea.</p>
       </section>
-      <section className="panel">
-        <div className="section-head"><h1>Historial de progreso</h1><span>Últimos 7 resultados visibles</span></div>
-        <div className="table-wrap">
-          <table>
-            <thead><tr><th>Fecha</th><th>Tipo</th><th>Nivel</th><th>PPM</th><th>Comprensión</th><th>Retención</th><th>Tiempo</th><th>Recomendación</th><th>Resultado</th></tr></thead>
-            <tbody>
-              {history.slice().reverse().map((item) => (
-                <tr key={item.id}>
-                  <td>{new Date(item.date).toLocaleDateString()}</td><td>{item.type}</td><td>{item.level}</td><td>{item.wpm}</td><td>{item.comprehension}%</td><td>{item.retention}%</td><td>{item.time}s</td><td>{item.recommendation}</td><td>{item.result}</td>
-                </tr>
-              ))}
-              {!history.length && <tr><td colSpan="9">Aún no hay prácticas guardadas.</td></tr>}
-            </tbody>
-          </table>
+      <section className="metric-row">
+        <article className="glass-stat"><strong>{completedThisWeek}</strong><span>Esta semana</span></article>
+        <article className="glass-stat"><strong>{state?.streak || 0}</strong><span>Racha</span></article>
+        <article className="glass-stat"><strong>{average(history, 'wpm')}</strong><span>PPM promedio</span></article>
+        <article className="glass-stat"><strong>{stableSpeed(history)}</strong><span>Mejor estable</span></article>
+      </section>
+      <section className="panel elevated">
+        <div className="section-head">
+          <div>
+            <p className="eyebrow">Evolucion</p>
+            <h2>{trend}</h2>
+          </div>
+          <TrendingUp size={22} />
+        </div>
+        <div className="mini-bars neon-bars">
+          {last7.map((item) => <span key={item.id} style={{ height: `${Math.max(12, item.comprehension)}%` }} title={`${item.comprehension}%`} />)}
+          {!last7.length && <p>Aun no hay sesiones guardadas.</p>}
         </div>
       </section>
-      <section className="panel"><h2>Últimos 7 resultados</h2><div className="mini-bars">{last7.map((item) => <span key={item.id} style={{ height: `${Math.max(12, item.comprehension)}%` }} title={`${item.comprehension}%`} />)}</div></section>
+      <section className="metric-row three">
+        <article className="glass-stat"><strong>{average(history, 'comprehension')}%</strong><span>Comprension</span></article>
+        <article className="glass-stat"><strong>{average(history, 'retention')}%</strong><span>Retencion</span></article>
+        <article className="glass-stat"><strong>{history.length}</strong><span>Sesiones</span></article>
+      </section>
+      <section className="activity-list">
+        <div className="section-head"><h2>Actividades completadas</h2><span>{activities.length}</span></div>
+        {activities.map((item) => (
+          <article className="activity-card" key={item.id}>
+            <div>
+              <strong>{item.type}</strong>
+              <span>{new Date(item.date).toLocaleDateString()} · {item.level}</span>
+            </div>
+            <div><strong>{item.wpm}</strong><span>ppm</span></div>
+            <div><strong>{item.comprehension}%</strong><span>comp.</span></div>
+          </article>
+        ))}
+      </section>
+      <button className="secondary wide" type="button" onClick={onGoHome}><Home size={18} /> Volver a Home</button>
     </main>
   );
 }

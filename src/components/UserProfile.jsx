@@ -1,39 +1,67 @@
-import { Award, BadgeCheck, Brain, Sparkles } from 'lucide-react';
+import { Award, BadgeCheck, Brain, Edit3, RefreshCw, Route, Sparkles } from 'lucide-react';
+import { getProgram } from '../data/programs';
 import { average, readerProfile } from '../utils/calculations';
+import { APP_VERSION } from '../version';
 
-export default function UserProfile({ state }) {
+export default function UserProfile({ state, onResetEvaluation, onChangeProgram, onSaveName }) {
   const profile = readerProfile(state.history);
   const xpLevel = Math.max(1, Math.floor((state.xp || 0) / 300) + 1);
+  const program = state.activeProgram ? getProgram(state.activeProgram) : null;
+
+  function submitName(event) {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    onSaveName(form.get('userName') || '');
+  }
 
   return (
-    <main className="view">
+    <main className="view mobile-view">
       <section className="profile-hero">
         <div>
-          <p className="eyebrow">Perfil del usuario</p>
+          <p className="eyebrow">Perfil lector</p>
           <h1>{profile.name}</h1>
-          <p>Nivel actual: <strong>{state.currentLevel}</strong> · Usuario nivel {xpLevel} · {state.xp || 0} XP</p>
+          <p>{state.userName || 'Usuario'} · Nivel {state.currentLevel} · Usuario nivel {xpLevel}</p>
         </div>
         <Sparkles size={36} />
       </section>
-      <section className="stats-grid">
-        <article className="stat-card"><Brain /><span>Comprensión media</span><strong>{average(state.history, 'comprehension')}%</strong></article>
-        <article className="stat-card"><BadgeCheck /><span>Retención media</span><strong>{average(state.history, 'retention')}%</strong></article>
-        <article className="stat-card"><Award /><span>Insignias</span><strong>{state.badges.length}</strong></article>
+      <form className="name-form" onSubmit={submitName}>
+        <input name="userName" placeholder="Nombre opcional" defaultValue={state.userName || ''} />
+        <button className="secondary" type="submit"><Edit3 size={16} /> Guardar</button>
+      </form>
+      <section className="metric-row three">
+        <article className="glass-stat"><Brain /><strong>{average(state.history, 'comprehension')}%</strong><span>Comprension</span></article>
+        <article className="glass-stat"><BadgeCheck /><strong>{average(state.history, 'retention')}%</strong><span>Retencion</span></article>
+        <article className="glass-stat"><Award /><strong>{state.xp || 0}</strong><span>XP</span></article>
+      </section>
+      <section className="panel elevated">
+        <div className="section-head">
+          <div>
+            <p className="eyebrow">Programa activo</p>
+            <h2>{program?.name || 'Sin programa'}</h2>
+          </div>
+          <Route size={22} />
+        </div>
+        <p>{program ? `${program.frequency} · Semana ${Math.max(1, Math.ceil((state.currentPlanDay || 1) / program.schedule.length))}` : 'Elige una ruta despues de tu diagnostico.'}</p>
+        <button className="secondary wide" type="button" onClick={onChangeProgram}>Cambiar programa</button>
       </section>
       <section className="two-col">
-        <article className="panel">
+        <article className="panel elevated">
           <h2>Fortalezas</h2>
           {profile.strengths.map((item) => <p className="check" key={item}>{item}</p>)}
         </article>
-        <article className="panel">
-          <h2>Áreas a mejorar</h2>
+        <article className="panel elevated">
+          <h2>Areas a mejorar</h2>
           {profile.improvements.map((item) => <p className="warn" key={item}>{item}</p>)}
         </article>
       </section>
-      <section className="panel">
-        <h2>Recomendación semanal</h2>
-        <p>{profile.weekly}</p>
-        <div className="badges">{state.badges.length ? state.badges.map((badge) => <span className="badge" key={badge}>{badge}</span>) : <span className="badge">Sin logros aún</span>}</div>
+      <section className="panel elevated">
+        <h2>Logros</h2>
+        <div className="badges">{state.badges.length ? state.badges.map((badge) => <span className="badge" key={badge}>{badge}</span>) : <span className="badge">Sin logros aun</span>}</div>
+      </section>
+      <section className="panel elevated">
+        <h2>Versión actual: {APP_VERSION}</h2>
+        <p>Lectura Pro IA conserva historial, metas y progreso al actualizar.</p>
+        <button className="danger-button" type="button" onClick={onResetEvaluation}><RefreshCw size={17} /> Reiniciar evaluacion</button>
       </section>
     </main>
   );
