@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="390" height="844" viewBox="0 0 390 844">
+  <rect width="390" height="844" fill="#f3f6fb"/>
+  <rect x="18" y="28" width="354" height="180" rx="10" fill="#123a78"/>
+  <text x="38" y="76" fill="#bfdbfe" font-family="Arial" font-size="14" font-weight="700">ENTRENADOR PERSONAL</text>
+  <text x="38" y="124" fill="#fff" font-family="Arial" font-size="38" font-weight="800">Lectura Pro IA</text>
+  <text x="38" y="156" fill="#dbeafe" font-family="Arial" font-size="16">Lee más rápido, comprende mejor</text>
+  <rect x="18" y="232" width="166" height="118" rx="8" fill="#ffffff" stroke="#dbe3ef"/>
+  <rect x="206" y="232" width="166" height="118" rx="8" fill="#ffffff" stroke="#dbe3ef"/>
+  <rect x="18" y="370" width="166" height="118" rx="8" fill="#ffffff" stroke="#dbe3ef"/>
+  <rect x="206" y="370" width="166" height="118" rx="8" fill="#ffffff" stroke="#dbe3ef"/>
+  <text x="38" y="286" fill="#64748b" font-family="Arial" font-size="14">Velocidad actual</text>
+  <text x="38" y="318" fill="#111827" font-family="Arial" font-size="30" font-weight="800">240 ppm</text>
+  <text x="226" y="286" fill="#64748b" font-family="Arial" font-size="14">Comprensión</text>
+  <text x="226" y="318" fill="#16a34a" font-family="Arial" font-size="30" font-weight="800">86%</text>
+  <rect x="18" y="520" width="354" height="74" rx="8" fill="#ffffff" stroke="#dbe3ef"/>
+  <rect x="18" y="612" width="354" height="74" rx="8" fill="#ffffff" stroke="#dbe3ef"/>
+  <rect x="18" y="704" width="354" height="74" rx="8" fill="#ffffff" stroke="#dbe3ef"/>
+</svg>
