@@ -3,7 +3,7 @@ import { getProgram } from '../data/programs';
 import { average, readerProfile } from '../utils/calculations';
 import { APP_VERSION } from '../version';
 
-export default function UserProfile({ state, onResetEvaluation, onChangeProgram, onSaveName }) {
+export default function UserProfile({ state, onResetEvaluation, onResetApp, onChangeProgram, onSaveName }) {
   const profile = readerProfile(state.history);
   const xpLevel = Math.max(1, Math.floor((state.xp || 0) / 300) + 1);
   const program = state.activeProgram ? getProgram(state.activeProgram) : null;
@@ -12,6 +12,11 @@ export default function UserProfile({ state, onResetEvaluation, onChangeProgram,
     event.preventDefault();
     const form = new FormData(event.currentTarget);
     onSaveName(form.get('userName') || '');
+  }
+
+  function confirmResetApp() {
+    const confirmed = window.confirm('Esto borrara historial, metas, progreso, evaluacion y programa activo. ¿Quieres empezar de 0?');
+    if (confirmed) onResetApp();
   }
 
   return (
@@ -62,6 +67,7 @@ export default function UserProfile({ state, onResetEvaluation, onChangeProgram,
         <h2>Versión actual: {APP_VERSION}</h2>
         <p>Lectura Pro IA conserva historial, metas y progreso al actualizar.</p>
         <button className="danger-button" type="button" onClick={onResetEvaluation}><RefreshCw size={17} /> Reiniciar evaluacion</button>
+        <button className="danger-button reset-app-button" type="button" onClick={confirmResetApp}><RefreshCw size={17} /> Reiniciar app desde 0</button>
       </section>
     </main>
   );

@@ -114,6 +114,7 @@ p { color: var(--muted); line-height: 1.55; }
 .primary { background: linear-gradient(135deg, var(--primary), #9333EA 48%, var(--info)); box-shadow: 0 16px 34px rgba(124, 58, 237, .32); }
 .secondary { background: rgba(31, 41, 55, .9); border: 1px solid var(--line); }
 .danger-button { width: 100%; background: rgba(239, 68, 68, .14); border: 1px solid rgba(239, 68, 68, .35); color: #FCA5A5; margin-top: 12px; }
+.reset-app-button { background: rgba(239, 68, 68, .24); border-color: rgba(239, 68, 68, .62); color: #FEE2E2; }
 .primary:active, .secondary:active, .danger-button:active, .module-card:active { transform: scale(.98); }
 .wide { width: 100%; }
 .actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 16px; }

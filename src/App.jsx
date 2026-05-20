@@ -19,7 +19,7 @@ import UpdateAvailableBanner from './components/UpdateAvailableBanner';
 import UserProfile from './components/UserProfile';
 import { buildBadges, levelFromPerformance, updateStreak } from './utils/calculations';
 import { getAdjustment, getCoachSummary, getDailySession, suggestProgram } from './utils/coach';
-import { loadState, saveState } from './utils/storage';
+import { clearState, defaultState, loadState, saveState } from './utils/storage';
 
 const bottomNav = [
   ['dashboard', 'Home', Home],
@@ -148,6 +148,20 @@ export default function App() {
     setView('gate');
   }
 
+  function resetApp() {
+    clearState();
+    const freshState = {
+      ...defaultState,
+      goals: { ...defaultState.goals },
+      settings: { ...defaultState.settings },
+      routeProgress: { ...defaultState.routeProgress },
+      history: [],
+      badges: []
+    };
+    setState(freshState);
+    setView('gate');
+  }
+
   const common = {
     state,
     dailySession,
@@ -173,7 +187,7 @@ export default function App() {
     progress: <ProgressPanel history={state.history} state={state} onGoHome={() => navigate('dashboard')} />,
     goals: <Goals goals={state.goals} history={state.history} onSave={(goals) => patch({ goals })} />,
     library: <TextLibrary />,
-    profile: <UserProfile state={state} onResetEvaluation={resetEvaluation} onChangeProgram={() => navigate('plan')} onSaveName={(userName) => patch({ userName })} />
+    profile: <UserProfile state={state} onResetEvaluation={resetEvaluation} onResetApp={resetApp} onChangeProgram={() => navigate('plan')} onSaveName={(userName) => patch({ userName })} />
   };
 
   const visibleView = !state.initialEvaluation && view !== 'evaluation' ? 'gate' : view;
