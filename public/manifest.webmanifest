@@ -3,7 +3,7 @@
   "short_name": "Lectura Pro",
   "description": "Entrenador personal de lectura rapida, comprension y retencion guiado por IA.",
   "id": "/?app=lectura-pro-ia",
-  "start_url": "/?source=pwa&v=2.0.1",
+  "start_url": "/?source=pwa&v=2.0.2",
   "scope": "/",
   "display": "standalone",
   "display_override": ["window-controls-overlay", "standalone", "minimal-ui"],

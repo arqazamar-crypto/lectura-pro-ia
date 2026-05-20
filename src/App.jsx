@@ -173,7 +173,7 @@ export default function App() {
   };
 
   const content = {
-    gate: <EvaluationGate state={state} onStart={() => setView('evaluation')} />,
+    gate: <EvaluationGate state={state} onStart={() => setView('evaluation')} onResetApp={resetApp} />,
     dashboard: <Dashboard state={state} onNavigate={navigate} coach={getCoachSummary(state)} />,
     today: <TodayScreen state={state} onNavigate={navigate} onChooseProgram={() => navigate('plan')} />,
     train: <TrainingHub onNavigate={navigate} />,

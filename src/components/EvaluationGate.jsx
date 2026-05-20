@@ -1,7 +1,12 @@
-import { BrainCircuit } from 'lucide-react';
+import { BrainCircuit, RefreshCw } from 'lucide-react';
 import CoachCard from './CoachCard';
 
-export default function EvaluationGate({ state, onStart }) {
+export default function EvaluationGate({ state, onStart, onResetApp }) {
+  function confirmResetApp() {
+    const confirmed = window.confirm('Esto borrara historial, metas, progreso, evaluacion y programa activo. ¿Quieres empezar de 0?');
+    if (confirmed) onResetApp();
+  }
+
   return (
     <main className="view mobile-view gate-view">
       <section className="gate-hero">
@@ -10,6 +15,9 @@ export default function EvaluationGate({ state, onStart }) {
         <h1>Primero realiza tu evaluacion inicial</h1>
         <p>La evaluacion crea tu ruta personalizada, define tu nivel lector y desbloquea el plan diario.</p>
         <button className="primary wide" type="button" onClick={onStart}>Comenzar evaluacion inicial</button>
+        <button className="danger-button reset-app-button" type="button" onClick={confirmResetApp}>
+          <RefreshCw size={17} /> Reiniciar app desde 0
+        </button>
       </section>
       <CoachCard state={state} />
     </main>
